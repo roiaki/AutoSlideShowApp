@@ -80,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // 起動時に画像を表示する
+    // 最初の画像を表示する
     private fun getContentsInfo() {
 
         // 画像の情報を取得する
@@ -93,7 +93,8 @@ class MainActivity : AppCompatActivity() {
             null // ソート (null ソートなし)
         )!!
 
-        // cursor!!.moveToFirst() 取得した結果に対するカーソルを先頭に移動させる 「!! not-nullアサーション演算子」
+        // cursor!!.moveToFirst() 取得した結果に対するカーソルを先頭に移動させる
+        //「!! not-nullアサーション演算子」
         if (cursor!!.moveToFirst()) {
 
             // indexからIDを取得し、そのIDから画像のURIを取得する
