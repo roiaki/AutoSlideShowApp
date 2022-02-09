@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        play_stop_button.text = "再生"
         // Android 6.0以降の場合
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // パーミッションの許可状態を確認する
@@ -81,7 +82,6 @@ class MainActivity : AppCompatActivity() {
 
     // 起動時に画像を表示する
     private fun getContentsInfo() {
-        play_stop_button.text = "再生"
 
         // 画像の情報を取得する
         val resolver = contentResolver
@@ -162,7 +162,7 @@ class MainActivity : AppCompatActivity() {
                         moveToNextIamge()
                     }
                 }
-            }, 2000, 2000) // 最初に始動させるまで 100ミリ秒、ループの間隔を 100ミリ秒 に設定
+            }, 2000, 2000) // 最初に始動させるまで 2000ミリ秒、ループの間隔を 2000ミリ秒 に設定
 
             forward_button.isEnabled = false
             back_button.isEnabled = false
