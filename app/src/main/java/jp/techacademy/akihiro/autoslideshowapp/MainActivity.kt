@@ -20,8 +20,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var cursor: Cursor
     private var mTimer: Timer? = null
-    // タイマー用の時間のための変数
-    private var mTimerSec = 0.0
     private var mHandler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 権限確認
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -91,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // 起動時に画像を表示する
     private fun getContentsInfo() {
 
         // cursor!!.moveToFirst() 取得した結果に対するカーソルを先頭に移動させる 「!! not-nullアサーション演算子」
@@ -106,12 +106,11 @@ class MainActivity : AppCompatActivity() {
             var pos = cursor.position.toString()
             Log.d("ANDROID", pos)
             imageView.setImageURI(imageUri)
-
         }
     }
 
+    // 次の画像を表示する
     private fun moveToNextIamge() {
-
         if (cursor.isLast) {
             cursor.moveToFirst()
         } else {
@@ -130,8 +129,8 @@ class MainActivity : AppCompatActivity() {
         Log.d("ANDROID", strId)
     }
 
+    // 前の画像を表示する
     private fun returnImage() {
-
         if (cursor.isFirst) {
             cursor.moveToLast()
         } else {
@@ -149,17 +148,18 @@ class MainActivity : AppCompatActivity() {
         var ids = id.toString()
         Log.d("ANDROID", ids)
     }
+
+    // スライドショー起動と停止
     private fun stopAndGo() {
-        Log.d("an", mTimer.toString())
         if (mTimer == null) {
             play_stop_button.text = "停止"
+
             // タイマーの作成
             mTimer = Timer()
-            Log.d("a", mTimer.toString())
+
             // タイマーの始動
             mTimer!!.schedule(object : TimerTask() {
                 override fun run() {
-                    mTimerSec += 0.1
                     mHandler.post {
                         moveToNextIamge()
                     }
