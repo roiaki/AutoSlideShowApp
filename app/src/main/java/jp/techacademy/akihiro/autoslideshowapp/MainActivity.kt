@@ -26,17 +26,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        play_stop_button.text = "再生"
-
-        // 画像の情報を取得する
-        val resolver = contentResolver
-        cursor = resolver.query(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, // データの種類
-            null, // 項目(null = 全項目)
-            null, // フィルタ条件(null = フィルタなし)
-            null, // フィルタ用パラメータ
-            null // ソート (null ソートなし)
-        )!!
         // Android 6.0以降の場合
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // パーミッションの許可状態を確認する
@@ -58,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // 1つのActivityで複数のボタンにリスナーを登録して似たような処理行う場合はActivityで実装する方法を選び、
-        // 各ボタンで行う処理が明らかに違う場合などは直接記述す
+        // 各ボタンで行う処理が明らかに違う場合などは直接記述する
         forward_button.setOnClickListener {
             moveToNextIamge()
         }
@@ -92,6 +81,17 @@ class MainActivity : AppCompatActivity() {
 
     // 起動時に画像を表示する
     private fun getContentsInfo() {
+        play_stop_button.text = "再生"
+
+        // 画像の情報を取得する
+        val resolver = contentResolver
+        cursor = resolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI, // データの種類
+            null, // 項目(null = 全項目)
+            null, // フィルタ条件(null = フィルタなし)
+            null, // フィルタ用パラメータ
+            null // ソート (null ソートなし)
+        )!!
 
         // cursor!!.moveToFirst() 取得した結果に対するカーソルを先頭に移動させる 「!! not-nullアサーション演算子」
         if (cursor!!.moveToFirst()) {
@@ -153,10 +153,8 @@ class MainActivity : AppCompatActivity() {
     private fun stopAndGo() {
         if (mTimer == null) {
             play_stop_button.text = "停止"
-
             // タイマーの作成
             mTimer = Timer()
-
             // タイマーの始動
             mTimer!!.schedule(object : TimerTask() {
                 override fun run() {
@@ -176,10 +174,40 @@ class MainActivity : AppCompatActivity() {
                 mTimer!!.cancel()
                 mTimer = null
             }
-
             forward_button.isEnabled = true
             back_button.isEnabled = true
             Log.d("a", mTimer.toString())
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("Android", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("Android", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("Android", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("Android", "onStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cursor!!.close()
+        Log.d("Android", "onDestroy")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("Android", "onRestart")
     }
 }
