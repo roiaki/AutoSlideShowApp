@@ -76,6 +76,11 @@ class MainActivity : AppCompatActivity() {
                     Log.d("ANDROID", "許可された")
                 } else {
                     Log.d("ANDROID", "許可されなかった")
+
+                    // 追加修正：パーミッションの利用「拒否」時にボタンをグレーアウト
+                    forward_button.isEnabled = false
+                    back_button.isEnabled = false
+                    play_stop_button.isEnabled = false
                 }
         }
     }
